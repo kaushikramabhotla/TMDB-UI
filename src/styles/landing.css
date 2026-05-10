@@ -1,0 +1,387 @@
+/* GLOBAL */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.landing {
+  width: 100%;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: black;
+  color: white;
+}
+
+/* NAVBAR */
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  box-sizing: border-box;
+  z-index: 10;
+  background: transparent; /* important */
+}
+
+.logo {
+  color: #e50914;
+  font-size: 50px;        /* bigger */
+  font-weight: 700;       /* bold */
+  letter-spacing: 2px;    /* premium feel */
+}
+
+.nav-btn {
+  padding: 8px 16px;
+  background-color: #e50914;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.nav-btn:hover {
+  background-color: #f40612;
+}
+
+/* HERO */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+
+  background: url('/batman.jpg')
+  center/99% no-repeat;
+}
+
+
+
+.movies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+
+  padding: 20px;
+}
+
+.movie-poster {
+  width: 100%;
+
+  height: 220px;
+
+  object-fit: cover;
+
+  border-radius: 10px;
+
+  margin-bottom: 10px;
+}
+
+.movie-card {
+  background: #1e1e1e;
+
+  color: white;
+
+  padding: 20px;
+
+  border-radius: 12px;
+  min-width: 380px;
+
+  transition: transform 0.2s ease;
+}
+
+.search-bar {
+  width: 300px;
+
+  padding: 12px;
+
+  border-radius: 8px;
+
+  border: none;
+
+  margin-bottom: 30px;
+
+  font-size: 16px;
+}
+
+.movie-card:hover {
+  transform: scale(1.02);
+}
+
+
+.search-dropdown {
+
+  position: absolute;
+
+  width: 320px;
+
+  background: #1f1f1f;
+
+  border-radius: 10px;
+
+  margin-top: 5px;
+
+  overflow: hidden;
+
+  z-index: 1000;
+}
+
+.search-item {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 10px;
+
+  color: white;
+
+  cursor: pointer;
+
+  min-height: 70px;
+}
+
+.search-item:hover {
+  background: #333;
+}
+.search-container {
+
+  position: relative;
+
+  width: 320px;
+
+  margin: 0 auto 30px auto;
+}
+
+.search-poster {
+
+  width: 40px;
+
+  height: 60px;
+
+  object-fit: cover;
+
+  border-radius: 5px;
+}
+
+
+.navbar {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 20px;
+}
+
+.logo {
+
+  color: white;
+
+  font-size: 32px;
+}
+
+.profile-section {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: white;
+}
+
+.profile-pic {
+
+  width: 45px;
+
+  height: 45px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+}
+
+
+
+
+/* DARK OVERLAY */
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.6) 40%,
+    rgba(0, 0, 0, 0.2) 70%,
+    rgba(0, 0, 0, 0) 100%
+  );
+
+  z-index: 1;
+}
+
+/* HERO CONTENT */
+.hero-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+body {
+  background: #141414;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.movies-page {
+  padding: 20px;
+}
+
+.page-title {
+  color: white;
+  margin-bottom: 50px;
+  margin-top: 80px;
+}
+
+.movies-row {
+  display: flex;
+
+  gap: 20px;
+
+  overflow-x: auto;
+
+  padding-bottom: 10px;
+}
+
+.movie-card {
+  min-width: 220px;
+
+  background: #1f1f1f;
+
+  color: white;
+
+  padding: 20px;
+
+  border-radius: 12px;
+
+  flex-shrink: 0;
+
+  transition: transform 0.2s ease;
+}
+
+.movie-card:hover {
+  transform: scale(1.05);
+}
+
+.movie-card button {
+  margin-top: 10px;
+
+  border: none;
+
+  background: transparent;
+
+  color: white;
+
+  cursor: pointer;
+
+  font-size: 18px;
+}
+
+
+.profile-section {
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  cursor: pointer;
+
+  color: white;
+}
+
+.profile-dropdown {
+
+  position: absolute;
+
+  top: 60px;
+
+  right: 0;
+
+  width: 180px;
+
+  background: #1f1f1f;
+
+  border-radius: 10px;
+
+  overflow: hidden;
+
+  z-index: 1000;
+}
+
+.dropdown-item {
+
+  padding: 14px;
+
+  color: white;
+
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+
+  background: #333;
+}
+
+
+
+
+
+
+
+.hero-content h1 {
+  font-size: 56px;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.hero-content button {
+  padding: 14px 28px;
+  background-color: #e50914;
+  border: none;
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.hero-content button:hover {
+  background-color: #f40612;
+}
+
