@@ -28,10 +28,8 @@ function MovieNavbar({
             setShowProfileMenu(!showProfileMenu)
           }
         >
-
           {
             user?.picture && (
-
               <img
                 className="profile-pic"
                 src={user.picture}
@@ -40,7 +38,6 @@ function MovieNavbar({
 
             )
           }
-
           <span>
             {user?.name}
           </span>
@@ -61,7 +58,11 @@ function MovieNavbar({
                 Favorites
               </div>
 
-              <div className="dropdown-item">
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  window.location.href = "/profile";
+                }}>
                 Profile
               </div>
 

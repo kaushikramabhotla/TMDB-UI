@@ -1,6 +1,7 @@
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import "../styles/LoginPage.css";
 
 function LoginPage() {
 
@@ -43,17 +44,63 @@ function LoginPage() {
   };
 
   return (
-    <div className="login-container">
 
-      <h1>Login</h1>
+  <div className="login-page">
 
-      <GoogleLogin
-        onSuccess={handleSuccess}
-        onError={() => console.log("Login Failed")}
-      />
+    <div className="login-overlay">
+
+      <div className="login-card">
+
+        <h1 className="login-logo">
+          TMDB
+        </h1>
+
+        <p className="login-subtitle">
+
+          Discover movies,
+          build favorites,
+          and chat with movie lovers.
+
+        </p>
+
+        <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        width: "100%"
+      }}
+    >
+
+      <div
+        style={{
+          transform: "scale(1.15)"
+        }}
+      >
+
+        <GoogleLogin
+          onSuccess={handleSuccess}
+
+          onError={() =>
+            console.log("Login Failed")
+          }
+
+          theme="filled_black"
+
+          size="large"
+
+          shape="pill"
+        />
+
+  </div>
+
+</div>
+
+      </div>
 
     </div>
-  );
+
+  </div>
+);
 }
 
 export default LoginPage;
