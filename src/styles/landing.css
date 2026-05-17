@@ -207,15 +207,26 @@ body {
 
 .profile-pic {
 
-  width: 45px;
+  width: 35px;
 
-  height: 45px;
+  height: 35px;
 
   border-radius: 50%;
+  align-items: center;
 
   object-fit: cover;
 }
 
+.profile-trigger {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  cursor: pointer;
+}
 
 
 
@@ -383,5 +394,41 @@ body {
 
 .hero-content button:hover {
   background-color: #f40612;
+}
+
+.session-popup {
+
+  position: fixed;
+
+  top: 50%;
+
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  background: #1f1f1f;
+
+  color: white;
+
+  padding: 30px;
+
+  border-radius: 10px;
+
+  width: 350px;
+
+  text-align: center;
+
+  z-index: 2000;
+}
+
+.session-buttons {
+
+  display: flex;
+
+  justify-content: center;
+
+  gap: 80px;
+
+  margin: 30px;
 }
 
