@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import MovieCard from "../components/MovieCard";
 import SearchBar from "../components/SearchBar";
 import MovieNavBar from "../components/MovieNavBar";
+import ChatWidget from "../components/ChatWidget";
 
 function MoviesPage() {
 
@@ -259,10 +260,9 @@ return (
           </div>
 
         </div>
-
       )
     }
-
+  <ChatWidget />
   </div>
 );
 

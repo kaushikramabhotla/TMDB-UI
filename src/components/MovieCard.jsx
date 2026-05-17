@@ -1,5 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 function MovieCard({ movie, toggleFavorite }) {
 
+  const navigate = useNavigate();
   return (
 
     <div className="movie-card">
@@ -8,6 +11,9 @@ function MovieCard({ movie, toggleFavorite }) {
         className="movie-poster"
         src={`https://image.tmdb.org/t/p/w500${movie.posterPath}`}
         alt={movie.title}
+        onClick={() =>
+          navigate(`/movies/${movie.id}`)
+        }
       />
 
       <h3>{movie.title}</h3>
