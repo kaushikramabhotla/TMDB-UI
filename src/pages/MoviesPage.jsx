@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import MovieCard from "../components/MovieCard";
+import SearchBar from "../components/SearchBar";
+import MovieNavBar from "../components/MovieNavBar";
 
 function MoviesPage() {
 
@@ -9,6 +12,7 @@ function MoviesPage() {
   const [searchResults, setSearchResults] = useState([]);
   const [user, setUser] = useState(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showSessionPopup, setShowSessionPopup] = useState(false);
 
   useEffect(() => {
 
@@ -17,6 +21,27 @@ function MoviesPage() {
       try {
 
         const token = localStorage.getItem("token");
+
+        if (token) {
+
+          const decoded = jwtDecode(token);
+
+          const currentTime = Date.now() / 1000;
+
+          if (decoded.exp < currentTime) {
+
+            alert("Session expired. Please login again.");
+
+            localStorage.clear();
+
+            window.location.href = "/login";
+
+            return;
+          }
+        }
+
+        const storedUser =
+              localStorage.getItem("googleUser");
 
         const res = await axios.get(
           "https://localhost:7022/api/movies/top10",
@@ -48,6 +73,54 @@ function MoviesPage() {
     fetchMovies();
 
   }, []);
+
+  useEffect(() => {
+
+  const timer = setTimeout(() => {
+
+    if (search.trim() !== "") {
+
+      searchMovies(search);
+    }
+
+    else {
+
+      setSearchResults([]);
+    }
+
+  }, 80);
+
+  return () => clearTimeout(timer);
+
+  }, [search]);
+
+  useEffect(() => {
+
+  const token = localStorage.getItem("token");
+
+  if (!token)
+    return;
+
+  const decoded = jwtDecode(token);
+
+  const expiryTime = decoded.exp * 1000;
+
+  const warningTime =
+    expiryTime - (2 * 60 * 1000);
+
+  const timeout =
+    warningTime - Date.now();
+
+  if (timeout > 0) {
+
+    setTimeout(() => {
+
+      setShowSessionPopup(true);
+
+    }, timeout);
+  }
+
+}, []);
 
   const searchMovies = async (query) => {
 
@@ -115,117 +188,21 @@ return (
 
   <div className="movies-page">
 
-    {/* 🔥 NAVBAR */}
-
-    <div className="navbar">
-
-      <h2 className="logo">
-        TMDB
-      </h2>
-
-      <div className="profile-section"onClick={() =>setShowProfileMenu(!showProfileMenu)}>
-        {
-          user?.picture && (
-
-            <img
-              className="profile-pic"
-              src={user.picture}
-              alt="profile"
-            />
-
-          )
-        }
-
-        <span>{user?.name}</span>
-                {
-          showProfileMenu && (
-
-            <div className="profile-dropdown">
-
-              <div className="dropdown-item">
-                Favorites
-              </div>
-
-              <div className="dropdown-item">
-                Profile
-              </div>
-
-              <div
-                className="dropdown-item"
-                onClick={() => {
-
-                  localStorage.clear();
-
-                  window.location.href = "/login";
-                }}
-              >
-                Logout
-              </div>
-
-            </div>
-
-          )
-        }
-
-      </div>
-
-    </div>
-
-    {/* 🔥 MAIN TITLE */}
+    <MovieNavBar
+      user={user}
+      showProfileMenu={showProfileMenu}
+      setShowProfileMenu={setShowProfileMenu}
+    />
 
     <h1 className="page-title">
       Discover Movies
     </h1>
 
-    {/* 🔥 SEARCH */}
-
-    <div className="search-container">
-
-      <input
-        className="search-bar"
-        type="text"
-        placeholder="Search movies..."
-        value={search}
-        onChange={(e) => searchMovies(e.target.value)}
-      />
-
-      {
-        searchResults.length > 0 && (
-
-          <div className="search-dropdown">
-
-            {searchResults.map((movie) => (
-
-              <div
-                key={movie.id}
-                className="search-item"
-              >
-
-                {
-                  movie.posterPath && (
-
-                    <img
-                      className="search-poster"
-                      src={`https://image.tmdb.org/t/p/w200${movie.posterPath}`}
-                      alt={movie.title}
-                    />
-
-                  )
-                }
-
-                <span>{movie.title}</span>
-
-              </div>
-
-            ))}
-
-          </div>
-        )
-      }
-
-    </div>
-
-    {/* 🔥 TOP 10 */}
+    <SearchBar
+      search={search}
+      setSearch={setSearch}
+      searchResults={searchResults}
+    />
 
     <h2 className="page-title">
       Top 10 Movies
@@ -235,35 +212,60 @@ return (
 
       {movies.map((movie) => (
 
-        <div
-          className="movie-card"
+        <MovieCard
           key={movie.id}
-        >
-
-          <img
-            className="movie-poster"
-            src={`https://image.tmdb.org/t/p/w500${movie.posterPath}`}
-            alt={movie.title}
-          />
-
-          <h3>{movie.title}</h3>
-
-          <p>⭐ {movie.voteCount}</p>
-
-          <button
-            onClick={() => toggleFavorite(movie.id)}
-          >
-            {movie.isFavorite ? "❤️" : "🤍"}
-          </button>
-
-        </div>
+          movie={movie}
+          toggleFavorite={toggleFavorite}
+        />
 
       ))}
 
     </div>
 
+    {
+      showSessionPopup && (
+
+        <div className="session-popup">
+
+          <h2>
+            Session Expiring Soon
+          </h2>
+
+          <p>
+            Your session will expire soon.
+          </p>
+
+          <div className="session-buttons">
+
+            <button
+              onClick={() =>
+                setShowSessionPopup(false)
+              }
+            >
+              Continue
+            </button>
+
+            <button
+              onClick={() => {
+
+                localStorage.clear();
+
+                window.location.href = "/login";
+              }}
+            >
+              Logout
+            </button>
+
+          </div>
+
+        </div>
+
+      )
+    }
+
   </div>
 );
+
 }
 
 export default MoviesPage;
