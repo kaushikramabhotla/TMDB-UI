@@ -20,6 +20,7 @@ function MovieCard({ movie, toggleFavorite }) {
         {movie.isFavorite ? "❤️" : "🤍"}
       </button>
 
+
     </div>
   );
 }
