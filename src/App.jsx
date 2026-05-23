@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import FavoritesPage from "./pages/FavoritesPage";
 import ProfilePage from "./pages/ProfilePage";
 import MovieDetailsPage from "./pages/MovieDetailsPage";
+import ChooseUsernamePage from "./pages/ChooseUsernamePage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/favorites" element={<FavoritesPage />}/>
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/movies/:id" element={<MovieDetailsPage />}/>
+        <Route path="/choose-username" element={<ChooseUsernamePage />}/>
       </Routes>
     </BrowserRouter>
   );

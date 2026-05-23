@@ -26,9 +26,9 @@
 
 .chat-window {
 
-  width: 350px;
+  width: 750px;
 
-  height: 500px;
+  height: 700px;
 
   background: #1f1f1f;
 
@@ -107,4 +107,260 @@
   border-radius: 8px;
 
   cursor: pointer;
+}
+
+.chat-search-container
+{
+    padding: 12px;
+
+    border-bottom:
+        1px solid #2f2f2f;
+
+    background:
+        #1b1b1b;
+}
+
+.chat-search
+{
+    width: 100%;
+
+    padding: 10px 14px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #2a2a2a;
+
+    color: white;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+.chat-search:focus
+{
+    border:
+        1px solid #ff3c3c;
+}
+
+.search-results
+{
+    margin-top: 12px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    max-height: 220px;
+
+    overflow-y: auto;
+}
+
+.search-user
+{
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    background: #242424;
+
+    padding: 10px;
+
+    border-radius: 12px;
+
+    transition: 0.2s;
+}
+
+.search-user:hover
+{
+    background: #303030;
+}
+
+.search-user-left
+{
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.search-avatar
+{
+    width: 42px;
+
+    height: 42px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff3c3c,
+            #ff7b00);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-weight: bold;
+
+    color: white;
+
+    font-size: 18px;
+}
+
+.search-user-info
+{
+    display: flex;
+
+    flex-direction: column;
+}
+
+.search-username
+{
+    color: white;
+
+    font-weight: 600;
+
+    font-size: 14px;
+}
+
+.search-name
+{
+    color: #9d9d9d;
+
+    font-size: 12px;
+}
+
+.friend-btn
+{
+    background: #ff3c3c;
+
+    border: none;
+
+    color: white;
+
+    padding: 8px 12px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+.friend-btn:hover
+{
+    background: #ff1f1f;
+}
+
+.friend-btn.sent
+{
+    background: #3a3a3a;
+
+    color: #bdbdbd;
+
+    cursor: default;
+}
+
+.chat-container {
+    display: flex;
+    height: 100%;
+}
+
+.chat-sidebar {
+    width: 70px;
+    background: #151515;
+    border-right: 1px solid #2b2b2b;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    gap: 18px;
+}
+
+.sidebar-item {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: #232323;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 22px;
+    transition: 0.2s;
+}
+
+.sidebar-item:hover {
+    background: #333;
+}
+
+.sidebar-item.active {
+    background: #ff3c3c;
+}
+
+.chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #1e1e1e;
+}
+
+.requests-panel,
+.chat-list-panel {
+    padding: 20px;
+    color: white;
+}
+
+.request-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.accept-btn,
+.reject-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 14px;
+}
+
+.accept-btn {
+    background: #1db954;
+    color: white;
+}
+
+.accept-btn:hover {
+    background: #18a34a;
+    transform: scale(1.08);
+}
+
+.reject-btn {
+    background: #ff3c3c;
+    color: white;
+}
+
+.reject-btn:hover {
+    background: #e62e2e;
+    transform: scale(1.08);
 }

@@ -1,0 +1,123 @@
+.choose-username-page {
+
+  min-height: 100vh;
+
+  background-image:
+  url("https://image.tmdb.org/t/p/original/8ZTVqvKDQ8emSGUEMjsS4yHAwrp.jpg");
+
+  background-size: cover;
+
+  background-position: center;
+
+  background-repeat: no-repeat;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+}
+
+.choose-username-overlay {
+
+  width: 100%;
+
+  min-height: 100vh;
+
+  background:
+    rgba(0,0,0,0.65);
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+}
+
+.choose-username-card {
+
+  width: 450px;
+
+  padding: 50px;
+
+  border-radius: 24px;
+
+  background:
+    rgba(18,18,18,0.78);
+
+  backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 0 40px rgba(0,0,0,0.8);
+
+  color: white;
+
+  text-align: center;
+}
+
+.choose-username-title {
+
+  font-size: 42px;
+
+  margin-bottom: 15px;
+}
+
+.choose-username-subtitle {
+
+  color: #cccccc;
+
+  line-height: 1.7;
+
+  margin-bottom: 30px;
+}
+
+.username-input {
+
+  width: 100%;
+
+  padding: 14px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  font-size: 18px;
+
+  outline: none;
+
+  margin-bottom: 20px;
+}
+
+.username-error {
+
+  color: #ff4d4d;
+
+  margin-bottom: 15px;
+}
+
+.username-button {
+
+  width: 100%;
+
+  padding: 14px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #e50914;
+
+  color: white;
+
+  font-size: 18px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease;
+}
+
+.username-button:hover {
+
+  background: #ff1f1f;
+}
