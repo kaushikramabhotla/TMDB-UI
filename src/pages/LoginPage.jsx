@@ -26,6 +26,7 @@ function LoginPage() {
 
       //  Save JWT
       localStorage.setItem("token", jwt);
+      const decodedJwt = jwtDecode(jwt);
 
       const googleUser = jwtDecode(idToken);
 
@@ -34,8 +35,17 @@ function LoginPage() {
         JSON.stringify(googleUser)
       );
 
-      //  redirect
-      window.location.href = "/movies";
+      if (!decodedJwt.username)
+      {
+        window.location.href =
+          "/choose-username";
+      }
+
+      else
+      {
+        window.location.href =
+          "/movies";
+      }
 
     }
     catch (err) {
