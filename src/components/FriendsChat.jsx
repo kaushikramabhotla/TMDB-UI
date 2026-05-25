@@ -8,6 +8,19 @@ function FriendsChat({ connection }) {
     const [allMessages, setAllMessages] = useState({});
     const [input, setInput] = useState("");
 
+    const token =
+    localStorage.getItem("token");
+
+    const decoded =
+        JSON.parse(
+            atob(token.split('.')[1])
+        );
+
+    const currentUserId =
+        decoded[
+        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+        ];
+
     // Load friends list
     useEffect(() => {
         const fetchFriends = async () => {
@@ -35,25 +48,26 @@ function FriendsChat({ connection }) {
     connection.off("ReceiveDirectMessage");
 
     // Listen for incoming realtime messages
-    connection.on("ReceiveDirectMessage",
-        (senderId, senderName, message) => {
-            console.log(
-                "MESSAGE RECEIVED:",
-                senderName,
-                message
-            );
-            setAllMessages(prev => ({
-                ...prev,
-                [senderId]: [
-                    ...(prev[senderId] || []),
-                    {
-                        sender: senderName,
-                        text: message
-                    }
-                ]
-            }));
-        }
-    );
+    connection.on(
+    "ReceiveDirectMessage",
+    (senderId, senderName, message) => {
+        console.log(
+            "GLOBAL MESSAGE:",
+            senderName,
+            message
+        );
+        setAllMessages(prev => ({
+            ...prev,
+            [senderId]: [
+                ...(prev[senderId] || []),
+                {
+                    sender: senderName,
+                    text: message
+                }
+            ]
+        }));
+    }
+);
 
     // Rejoin SignalR group after reconnect
     connection.onreconnected(async () => {
@@ -89,6 +103,82 @@ function FriendsChat({ connection }) {
     };
 
 }, [connection]);
+
+    useEffect(() => {
+
+    if (!activeFriend)
+        return;
+
+    const loadMessages =
+        async () => {
+        try
+        {
+            const token =
+                localStorage.getItem(
+                    "token"
+                );
+            const res =
+                await axios.get(
+                    `https://localhost:7022/api/messages/${activeFriend.id}`,
+                    {
+                        headers:
+                        {
+                            Authorization:`Bearer ${token}`
+                        }
+                    }
+                );
+            const formatted =
+            res.data.map(m => ({
+                sender:
+                    m.senderId === currentUserId
+                        ? "You"
+                        : m.senderName,
+                text:
+                    m.message
+            }));
+            setAllMessages(prev => ({
+                ...prev,
+                [activeFriend.id]:
+                    formatted
+            }));
+        }
+        catch (err)
+        {
+            console.error(err);
+        }
+    };
+
+    loadMessages();
+
+    const markAsRead =
+    async () => {
+    try
+    {
+        const token = localStorage.getItem("token");
+
+        await axios.post(
+            `https://localhost:7022/api/messages/read/${activeFriend.id}`,
+            {},
+            {
+                headers:
+                {
+                    Authorization:`Bearer ${token}`
+                }
+            }
+        );
+
+        setUnreadCount(0);
+    }
+
+    catch (err)
+    {
+        console.error(err);
+    }
+};
+
+markAsRead();
+
+}, [activeFriend]);
 
     const sendMessage = async () => {
         if (!input.trim() || !activeFriend || !connection) return;

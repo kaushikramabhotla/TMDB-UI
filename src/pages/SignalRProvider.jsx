@@ -14,20 +14,36 @@ const SignalRContext =
 
 export function SignalRProvider({children})
 {
-    const [connection,
-        setConnection] =
-            useState(null);
+    const [connection, setConnection] = useState(null);
+
+    const [notifications, setNotifications] = useState([]);
+
+    const [notifCount, setNotifCount] = useState(0);
 
     useEffect(() => {
+
+        const token =
+            localStorage.getItem("token");
+            if(!token)
+                return;
+
+        const decoded =
+            JSON.parse(
+                atob(token.split('.')[1])
+            );
+
+        const userId =
+            decoded[
+            "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+            ];
+
         const newConnection =
             new signalR
                 .HubConnectionBuilder()
-                .withUrl("https://localhost:7022/chatHub")
+                .withUrl(`https://localhost:7022/chatHub?userId=${userId}`)
                 .withAutomaticReconnect()
                 .build();
-        setConnection(
-            newConnection
-        );
+        setConnection(newConnection);
 
     }, []);
 
@@ -50,10 +66,25 @@ export function SignalRProvider({children})
                         ];
 
                     await connection.invoke("JoinUserGroup",userId);
-                    console.log(
-                        "Joined group:",
-                        userId
-                    );
+                    console.log("Joined group:", userId);
+
+                    connection.on(
+                    "ReceiveNotification",
+                    (type, message) => {
+                        console.log(
+                            "NOTIFICATION RECEIVED"
+                        );
+                        setNotifications(prev => [
+                            ...prev,
+                            {
+                                type,
+                                message,
+                                id: Date.now()
+                            }
+                        ]);
+                        setNotifCount(prev =>prev + 1);
+                    }
+                );
                 }
             })
             .catch(err => {
@@ -64,7 +95,7 @@ export function SignalRProvider({children})
 
     return (
 
-        <SignalRContext.Provider value={connection}>
+        <SignalRContext.Provider value={{connection, notifications, notifCount}}>
             {children}
         </SignalRContext.Provider>
     );

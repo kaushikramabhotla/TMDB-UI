@@ -9,7 +9,10 @@ import {useSignalR}from "../pages/SignalRProvider";
 import * as signalR from "@microsoft/signalr";
 
 function ChatWidget() {
-  const connection = useSignalR();
+  const {
+    connection,
+    notifications,
+    notifCount} = useSignalR();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -27,10 +30,6 @@ function ChatWidget() {
 
   const [friends, setFriends] = useState([]);
 
-  const [notifications, setNotifications] = useState([]);
-
-  const [notifCount, setNotifCount] = useState(0);
-
   useEffect(() =>
   {
     const searchUsers =
@@ -42,26 +41,19 @@ function ChatWidget() {
         setUsers([]);
         return;
       }
-
       try
       {
-        const token =
-          localStorage.getItem("token");
-
+        const token = localStorage.getItem("token");
         const res =
           await axios.get(
-
             `https://localhost:7022/api/users/search?query=${search}`,
-
             {
               headers:
               {
-                Authorization:
-                  `Bearer ${token}`
+                Authorization:`Bearer ${token}`
               }
             }
           );
-
         setUsers(res.data);
       }
 
@@ -72,96 +64,13 @@ function ChatWidget() {
     };
 
     // Debounce
-    const timer =
-      setTimeout(
-        searchUsers,
-        400);
+    const timer = setTimeout(searchUsers,400);
 
     return () =>
       clearTimeout(timer);
 
   }, [search]);
 
-  useEffect(() => {
-
-  if (!connection)
-    return;
-
-  connection.start()
-    .then(() => {
-      console.log("Connected");
-
-      // JOIN USER GROUP
-      const token =
-        localStorage.getItem("token");
-
-      if (token)
-    {
-      const decoded =
-        JSON.parse(
-          atob(token.split('.')[1])
-        );
-
-      console.log(decoded);
-
-      const userId =
-        decoded[
-          "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
-        ];
-
-      console.log("USER ID:", userId);
-
-      connection.invoke("JoinUserGroup",userId);
-    }
-      // NORMAL CHAT MESSAGE
-      connection.on(
-        "ReceiveMessage",
-        (user, message) => {
-          setMessages(prev => [
-            ...prev,
-            {
-              user,
-              message
-            }
-          ]);
-        }
-      );
-
-      // NOTIFICATIONS
-      connection.on(
-        "ReceiveNotification",
-        (type, message) => {
-          setNotifications(prev => [
-            ...prev,
-            {
-              type,
-              message,
-              id: Date.now()
-            }
-          ]);
-          setNotifCount(prev =>
-            prev + 1
-          );
-        }
-      );
-
-      // FRIEND LIST LIVE UPDATE
-      connection.on(
-        "FriendAdded",
-        () =>
-        {
-          loadFriends();
-        }
-      );
-
-    })
-
-    .catch(err => {
-
-      console.error(err);
-    });
-
-}, [connection]);
 
   useEffect(() =>
   {
@@ -393,14 +302,10 @@ const loadFriends = async () => {
                 ? "sidebar-item active"
                 : "sidebar-item"
             }
-
-            onClick={() =>
-              setActiveTab("chats")
-            }
+            onClick={() => setActiveTab("chats")}
           >
             💬
           </div>
-
         </div>
 
         {/* MAIN */}
