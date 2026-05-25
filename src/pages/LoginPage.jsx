@@ -13,7 +13,7 @@ function LoginPage() {
 
       // 🔥 Login to backend
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/auth/google",
+        `${import.meta.env.VITE_API_URL}/api/auth/google`,
         idToken,
         {
           headers: {
