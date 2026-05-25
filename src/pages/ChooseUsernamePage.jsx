@@ -29,7 +29,7 @@ function ChooseUsernamePage()
       localStorage.getItem("token");
 
     await axios.put(
-      `${import.meta.env.VITE_API_URL}/api/users/username",
+      `${import.meta.env.VITE_API_URL}/api/users/username`,
       {
         username
       },
