@@ -45,7 +45,7 @@ function MoviesPage() {
               localStorage.getItem("googleUser");
 
         const res = await axios.get(
-          "https://localhost:7022/api/movies/top10",
+          `${import.meta.env.VITE_API_URL}/api/movies/top10",
           {
             headers: {
               Authorization: `Bearer ${token}`
@@ -137,7 +137,7 @@ function MoviesPage() {
       const token = localStorage.getItem("token");
 
       const res = await axios.get(
-        `https://localhost:7022/api/movies/search?query=${query}`,
+        `${import.meta.env.VITE_API_URL}/api/movies/search?query=${query}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -160,7 +160,7 @@ function MoviesPage() {
       const token = localStorage.getItem("token");
 
       await axios.put(
-        "https://localhost:7022/api/movies",
+        `${import.meta.env.VITE_API_URL}/api/movies",
         movieId,
         {
           headers: {

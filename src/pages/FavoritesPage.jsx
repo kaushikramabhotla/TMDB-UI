@@ -25,7 +25,7 @@ function FavoritesPage() {
         localStorage.getItem("token");
 
         await axios.put(
-        "https://localhost:7022/api/movies",
+        `${import.meta.env.VITE_API_URL}/api/movies`,
         movieId,
         {
             headers: {
@@ -56,7 +56,7 @@ function FavoritesPage() {
           localStorage.getItem("token");
 
         const res = await axios.get(
-          "https://localhost:7022/api/users/favorites",
+          `${import.meta.env.VITE_API_URL}/api/users/favorites`,
           {
             headers: {
               Authorization: `Bearer ${token}`

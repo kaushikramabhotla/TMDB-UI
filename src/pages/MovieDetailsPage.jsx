@@ -32,7 +32,7 @@ function MovieDetailsPage() {
           const res =
             await axios.get(
 
-              `https://localhost:7022/api/movies/${id}`,
+              `${import.meta.env.VITE_API_URL}/api/movies/${id}`,
 
               {
                 headers: {

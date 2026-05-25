@@ -40,7 +40,7 @@ export function SignalRProvider({children})
         const newConnection =
             new signalR
                 .HubConnectionBuilder()
-                .withUrl(`https://localhost:7022/chatHub?userId=${userId}`)
+                .withUrl(`${import.meta.env.VITE_API_URL}/chatHub?userId=${userId}`)
                 .withAutomaticReconnect()
                 .build();
         setConnection(newConnection);

@@ -46,7 +46,7 @@ function ChatWidget() {
         const token = localStorage.getItem("token");
         const res =
           await axios.get(
-            `https://localhost:7022/api/users/search?query=${search}`,
+            `${import.meta.env.VITE_API_URL}/api/users/search?query=${search}`,
             {
               headers:
               {
@@ -84,7 +84,7 @@ function ChatWidget() {
         const res =
           await axios.get(
 
-            "https://localhost:7022/api/users/friend-requests",
+            `${import.meta.env.VITE_API_URL}/api/users/friend-requests`,
             {
               headers:
               {
@@ -139,7 +139,7 @@ function ChatWidget() {
 
     await axios.post(
 
-      `https://localhost:7022/api/users/friend-request?receiverId=${receiverId}`,
+      `${import.meta.env.VITE_API_URL}/api/users/friend-request?receiverId=${receiverId}`,
 
       {},
 
@@ -166,7 +166,7 @@ const handleAccept = async (requestId) => {
 
     const token = localStorage.getItem("token");
     await axios.post(
-      `https://localhost:7022/api/users/accept?requestId=${requestId}`,
+      `${import.meta.env.VITE_API_URL}/api/users/accept?requestId=${requestId}`,
       {},
       {
         headers: {
@@ -187,7 +187,7 @@ const handleReject = async (requestId) => {
     try {
         const token = localStorage.getItem("token");
         await axios.post(
-            `https://localhost:7022/api/users/reject`,
+            `${import.meta.env.VITE_API_URL}/api/users/reject`,
             requestId, // send as raw body since backend uses [FromBody] Guid
             {
                 headers: {
@@ -211,7 +211,7 @@ const loadFriends = async () => {
 
     const res =
       await axios.get(
-        "https://localhost:7022/api/users/friends",
+        `${import.meta.env.VITE_API_URL}/api/users/friends`,
         {
           headers: {
             Authorization: `Bearer ${token}`

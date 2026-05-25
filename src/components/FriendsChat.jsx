@@ -27,7 +27,7 @@ function FriendsChat({ connection }) {
             try {
                 const token = localStorage.getItem("token");
                 const res = await axios.get(
-                    "https://localhost:7022/api/users/friends",
+                    `${import.meta.env.VITE_API_URL}/api/users/friends`,
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
                 setFriends(res.data);
@@ -119,7 +119,7 @@ function FriendsChat({ connection }) {
                 );
             const res =
                 await axios.get(
-                    `https://localhost:7022/api/messages/${activeFriend.id}`,
+                    `${import.meta.env.VITE_API_URL}/api/messages/${activeFriend.id}`,
                     {
                         headers:
                         {
@@ -157,7 +157,7 @@ function FriendsChat({ connection }) {
         const token = localStorage.getItem("token");
 
         await axios.post(
-            `https://localhost:7022/api/messages/read/${activeFriend.id}`,
+            `${import.meta.env.VITE_API_URL}/api/messages/read/${activeFriend.id}`,
             {},
             {
                 headers:
