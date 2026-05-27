@@ -44,6 +44,17 @@ export function SignalRProvider({children})
                 .withAutomaticReconnect()
                 .build();
         setConnection(newConnection);
+        newConnection.onclose((err) => {
+            console.log("SignalR Closed", err);
+        });
+
+        newConnection.onreconnecting(() => {
+            console.log("SignalR Reconnecting...");
+        });
+
+        newConnection.onreconnected(() => {
+            console.log("SignalR Reconnected");
+        });
 
     }, []);
 

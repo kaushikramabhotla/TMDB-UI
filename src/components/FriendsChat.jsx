@@ -170,10 +170,25 @@ function FriendsChat({ connection }) {
         };
         console.log(currentUser);
 
+        if (!connection)
+        {
+            console.log("No SignalR connection");
+            return;
+        }
+
         if (connection.state !== "Connected")
         {
-            console.log("SignalR not connected");
-            return;
+            console.log("SignalR reconnecting...");
+
+            try
+            {
+                await connection.start();
+            }
+            catch (err)
+            {
+                console.error(err);
+                return;
+            }
         }
 
         connection.invoke(
