@@ -176,11 +176,9 @@ function FriendsChat({ connection }) {
             return;
         }
 
-        await connection.invoke(
+        connection.invoke(
             "SendMessageToFriend",
             activeFriend.id.toString(),
-            currentUser.id,
-            currentUser.username,
             input
         );
 

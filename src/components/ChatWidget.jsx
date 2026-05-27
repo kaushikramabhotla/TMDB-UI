@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import "../styles/ChatWidget.css";
 import axios from "axios";
 import { FaCheck, FaTimes } from "react-icons/fa";
-import * as signalR from "@microsoft/signalr";
 import FriendsChat from "./FriendsChat";
+import { useSignalR } from "../pages/SignalRProvider";
 
 function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const [connection, setConnection] = useState(null);
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
   const [activeTab, setActiveTab] = useState("search");
@@ -16,6 +15,7 @@ function ChatWidget() {
   // ✅ FIX 2: Add notification state
   const [notifications, setNotifications] = useState([]);
   const [notifCount, setNotifCount] = useState(0);
+  const { connection } = useSignalR();
 
   // ─── Search users ───────────────────────────────────────────
   useEffect(() => {
@@ -34,47 +34,7 @@ function ChatWidget() {
     return () => clearTimeout(timer);
   }, [search]);
 
-  // ─── Build SignalR connection ────────────────────────────────
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const decoded = JSON.parse(atob(token.split('.')[1]));
-    const userId = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
-
-    const newConnection = new signalR.HubConnectionBuilder()
-        .withUrl(`${import.meta.env.VITE_API_URL}/chatHub?userId=${userId}`, {
-            withCredentials: true  // ← this is what CORS credentials mode needs
-        })
-        .withAutomaticReconnect()
-        .build();
-  }, []);
-
-  // ─── Start connection + register listeners ───────────────────
-  useEffect(() => {
-    if (!connection) return;
-
-    connection.start().then(async () => {
-      console.log("SignalR Connected");
-
-      // ✅ FIX 1: Join user's personal group so backend can target us
-      const token = localStorage.getItem("token");
-      if (token) {
-        const decoded = JSON.parse(atob(token.split('.')[1]));
-        const userId = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
-        await connection.invoke("JoinUserGroup", userId);
-        console.log("Joined group:", userId);
-      }
-
-      // ✅ FIX 2: Listen for notifications from Redis → SignalR
-      connection.on("ReceiveNotification", (type, message) => {
-        console.log("NOTIFICATION RECEIVED:", type, message);
-        setNotifications(prev => [...prev, { type, message, id: Date.now() }]);
-        setNotifCount(prev => prev + 1);
-      });
-
-    }).catch(err => console.error("SignalR error:", err));
-
-  }, [connection]);
-
+  
   // ─── Load friend requests ────────────────────────────────────
   useEffect(() => {
     const loadRequests = async () => {
