@@ -59,50 +59,107 @@ export function SignalRProvider({children})
     }, []);
 
     useEffect(() => {
-        if (!connection)
-            return;
 
-        connection.start()
-            .then(async () => {
-                console.log("SignalR Connected");
+    if (!connection)
+        return;
 
-                const token = localStorage.getItem("token");
+    // Register listener ONLY ONCE
+    connection.off("ReceiveNotification");
 
-                if (token)
+    connection.on(
+        "ReceiveNotification",
+        (type, message) => {
+
+            console.log(
+                "NOTIFICATION RECEIVED"
+            );
+
+            setNotifications(prev => [
+                ...prev,
                 {
-                    const decoded =JSON.parse(atob(token.split('.')[1]));
-                    const userId =
-                        decoded[
-                          "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
-                        ];
-
-                    await connection.invoke("JoinUserGroup",userId);
-                    console.log("Joined group:", userId);
-
-                    connection.on(
-                    "ReceiveNotification",
-                    (type, message) => {
-                        console.log(
-                            "NOTIFICATION RECEIVED"
-                        );
-                        setNotifications(prev => [
-                            ...prev,
-                            {
-                                type,
-                                message,
-                                id: Date.now()
-                            }
-                        ]);
-                        setNotifCount(prev =>prev + 1);
-                    }
-                );
+                    type,
+                    message,
+                    id: Date.now()
                 }
-            })
-            .catch(err => {
-                console.error(err);
-            });
+            ]);
 
-    }, [connection]);
+            setNotifCount(prev => prev + 1);
+        }
+    );
+
+    // Reconnect lifecycle logs
+    connection.onclose((err) => {
+        console.log(
+            "SignalR Closed",
+            err
+        );
+    });
+
+    connection.onreconnecting(() => {
+        console.log(
+            "SignalR Reconnecting..."
+        );
+    });
+
+    connection.onreconnected(async () => {
+
+        console.log(
+            "SignalR Reconnected"
+        );
+
+        const token =
+            localStorage.getItem("token");
+
+        if (token)
+        {
+            const decoded =
+                JSON.parse(
+                    atob(token.split('.')[1])
+                );
+
+            const userId =
+                decoded[
+                "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+                ];
+
+            await connection.invoke(
+                "JoinUserGroup",
+                userId
+            );
+
+            console.log(
+                "REJOINED GROUP:",
+                userId
+            );
+        }
+    });
+
+    connection.start()
+        .then(async () => {
+
+            console.log("SignalR Connected");
+            const token = localStorage.getItem("token");
+
+            if (token)
+            {
+                const decoded = JSON.parse(atob(token.split('.')[1]));
+                const userId =
+                    decoded[
+                    "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+                    ];
+
+                await connection.invoke(
+                    "JoinUserGroup",
+                    userId
+                );
+                console.log("Joined group:", userId);
+            }
+        })
+        .catch(err => {
+            console.error(err);
+        });
+
+}, [connection]);
 
     return (
 

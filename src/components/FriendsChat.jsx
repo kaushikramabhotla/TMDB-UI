@@ -178,17 +178,8 @@ function FriendsChat({ connection }) {
 
         if (connection.state !== "Connected")
         {
-            console.log("SignalR reconnecting...");
-
-            try
-            {
-                await connection.start();
-            }
-            catch (err)
-            {
-                console.error(err);
-                return;
-            }
+            console.log("SignalR still reconnecting...");
+            return;
         }
 
         connection.invoke(
