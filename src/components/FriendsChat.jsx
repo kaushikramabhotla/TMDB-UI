@@ -203,6 +203,12 @@ markAsRead();
         };
         console.log(currentUser);
 
+        if (connection.state !== "Connected")
+        {
+            console.log("SignalR not connected");
+            return;
+        }
+
         await connection.invoke(
             "SendMessageToFriend",
             activeFriend.id.toString(),
