@@ -150,34 +150,6 @@ function FriendsChat({ connection }) {
 
     loadMessages();
 
-    const markAsRead =
-    async () => {
-    try
-    {
-        const token = localStorage.getItem("token");
-
-        await axios.post(
-            `${import.meta.env.VITE_API_URL}/api/messages/read/${activeFriend.id}`,
-            {},
-            {
-                headers:
-                {
-                    Authorization:`Bearer ${token}`
-                }
-            }
-        );
-
-        setUnreadCount(0);
-    }
-
-    catch (err)
-    {
-        console.error(err);
-    }
-};
-
-markAsRead();
-
 }, [activeFriend]);
 
     const sendMessage = async () => {
@@ -191,15 +163,10 @@ markAsRead();
                 atob(token.split('.')[1])
             );
 
+        console.log("All JWT claims:", decoded); // keep this temporarily to see exact keys
         const currentUser = {
-
-            id:
-            decoded[
-                "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
-            ],
-
-            username:
-                decoded.unique_name
+            id: decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"],
+            username: decoded["unique_name"] || decoded["username"] || decoded["name"] || "User"
         };
         console.log(currentUser);
 

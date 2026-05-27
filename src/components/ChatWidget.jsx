@@ -36,11 +36,16 @@ function ChatWidget() {
 
   // ─── Build SignalR connection ────────────────────────────────
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    const decoded = JSON.parse(atob(token.split('.')[1]));
+    const userId = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+
     const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`${import.meta.env.VITE_API_URL}/chatHub`)
-      .withAutomaticReconnect()
-      .build();
-    setConnection(newConnection);
+        .withUrl(`${import.meta.env.VITE_API_URL}/chatHub?userId=${userId}`, {
+            withCredentials: true  // ← this is what CORS credentials mode needs
+        })
+        .withAutomaticReconnect()
+        .build();
   }, []);
 
   // ─── Start connection + register listeners ───────────────────
