@@ -101,39 +101,6 @@ export function SignalRProvider({children})
         );
     });
 
-    connection.onreconnected(async () => {
-
-        console.log(
-            "SignalR Reconnected"
-        );
-
-        const token =
-            localStorage.getItem("token");
-
-        if (token)
-        {
-            const decoded =
-                JSON.parse(
-                    atob(token.split('.')[1])
-                );
-
-            const userId =
-                decoded[
-                "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
-                ];
-
-            await connection.invoke(
-                "JoinUserGroup",
-                userId
-            );
-
-            console.log(
-                "REJOINED GROUP:",
-                userId
-            );
-        }
-    });
-
     connection.start()
         .then(async () => {
 

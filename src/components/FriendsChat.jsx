@@ -69,32 +69,6 @@ function FriendsChat({ connection }) {
     }
 );
 
-    // Rejoin SignalR group after reconnect
-    connection.onreconnected(async () => {
-        console.log("RECONNECTED");
-        const token = localStorage.getItem("token");
-        if (token)
-        {
-            const decoded =
-                JSON.parse(
-                    atob(token.split('.')[1])
-                );
-            const userId =
-                decoded[
-                    "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
-                ];
-
-            await connection.invoke(
-                "JoinUserGroup",
-                userId
-            );
-            console.log(
-                "REJOINED GROUP:",
-                userId
-            );
-        }
-    });
-
     return () => {
 
         connection.off(
