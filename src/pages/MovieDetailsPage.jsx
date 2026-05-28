@@ -21,6 +21,7 @@ function MovieDetailsPage() {
   const [showProfileMenu,setShowProfileMenu] = useState(false);
 
   const [showChat, setShowChat] = useState(false);
+  
 
   useEffect(() => {
 
@@ -170,10 +171,22 @@ return (
 
     </div>
 
-    <FriendsChat
-      showChat={showChat}
-      setShowChat={setShowChat}
-    />
+    <>
+      {!showChat && (
+        <button
+          className="floating-chat-btn"
+          onClick={() => setShowChat(true)}
+        >
+          💬
+        </button>
+      )}
+
+      {showChat && (
+        <FriendsChat
+          setShowChat={setShowChat}
+        />
+      )}
+    </>
 
   </div>
 );

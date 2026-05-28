@@ -143,3 +143,31 @@
 
   font-weight: 700;
 }
+
+.floating-chat-btn {
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+
+  width: 60px;
+  height: 60px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #ff4d6d;
+  color: white;
+
+  font-size: 24px;
+  cursor: pointer;
+
+  z-index: 9999;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+
+  transition: 0.2s;
+}
+
+.floating-chat-btn:hover {
+  transform: scale(1.08);
+}
