@@ -80,8 +80,8 @@ function ChatWidget() {
       {
         return prev;
       }
-      return [
-        ...prev,
+      console.log("I am here " + friendRequests);
+      return [...prev,
         {
           id: request.senderId,
           username: request.username,
