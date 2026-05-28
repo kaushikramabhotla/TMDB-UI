@@ -52,11 +52,8 @@ function ChatWidget() {
 
   // ─── Accept / Reject ─────────────────────────────────────────
   const handleAccept = async (request) => {
-
   try {
-    const token =
-      localStorage.getItem("token");
-
+    const token = localStorage.getItem("token");
     await axios.post(
       `${import.meta.env.VITE_API_URL}/api/users/accept?requestId=${request.id}`,
       {},
@@ -66,15 +63,32 @@ function ChatWidget() {
         }
       }
     );
-    // Remove accepted request instantly from UI
-    setFriendRequests(prev =>
-      prev.filter(r => r.id !== request.id)
-    );
-    setFriends(prev => [
-      ...prev,
-      request.sender
-    ]);
 
+    // Remove request instantly from UI
+    setFriendRequests(prev =>
+      prev.filter(r => r.senderId !== request.senderId)
+    );
+
+    // Add friend instantly to sidebar
+    setFriends(prev => {
+      // Prevent duplicate friend entries
+      const alreadyExists =
+        prev.some(
+          f => f.id === request.senderId
+        );
+      if (alreadyExists)
+      {
+        return prev;
+      }
+      return [
+        ...prev,
+        {
+          id: request.senderId,
+          username: request.username,
+          name: request.name
+        }
+      ];
+    });
   }
   catch (err)
   {
