@@ -163,13 +163,38 @@ function ChatWidget() {
                             <div className="search-name">{user.name}</div>
                           </div>
                         </div>
-                        <button
-                          className={user.requestSent ? "friend-btn sent" : "friend-btn"}
-                          disabled={user.requestSent}
-                          onClick={() => sendFriendRequest(user.id)}
-                        >
-                          {user.requestSent ? "Request Sent" : "Add Friend"}
-                        </button>
+                        {
+                          user.alreadyFriends
+                          ?
+                          (
+                            <button
+                              className="friend-btn friends"
+                              disabled
+                            >
+                              Friends
+                            </button>
+                          )
+                          :
+                          (
+                            <button
+                              className={
+                                user.requestSent
+                                ? "friend-btn sent"
+                                : "friend-btn"
+                              }
+                              disabled={user.requestSent}
+                              onClick={() =>
+                                sendFriendRequest(user.id)
+                              }
+                            >
+                              {
+                                user.requestSent
+                                ? "Request Sent"
+                                : "Add Friend"
+                              }
+                            </button>
+                          )
+                        }
                       </div>
                     ))}
                   </div>
