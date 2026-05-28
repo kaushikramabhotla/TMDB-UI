@@ -55,7 +55,7 @@ function ChatWidget() {
   try {
     const token = localStorage.getItem("token");
     await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/users/accept?requestId=${request.senderId}`,
+      `${import.meta.env.VITE_API_URL}/api/users/accept?senderId=${request.senderId}`,
       {},
       {
         headers: {
