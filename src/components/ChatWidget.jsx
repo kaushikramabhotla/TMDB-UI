@@ -55,7 +55,7 @@ function ChatWidget() {
   try {
     const token = localStorage.getItem("token");
     await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/users/accept?requestId=${request.id}`,
+      `${import.meta.env.VITE_API_URL}/api/users/accept?requestId=${request.senderId}`,
       {},
       {
         headers: {
@@ -64,14 +64,15 @@ function ChatWidget() {
       }
     );
 
-    // Remove request instantly from UI
+    // Remove request instantly
     setFriendRequests(prev =>
-      prev.filter(r => r.senderId !== request.senderId)
+      prev.filter(
+        r => r.senderId !== request.senderId
+      )
     );
 
-    // Add friend instantly to sidebar
+    // Add friend instantly
     setFriends(prev => {
-      // Prevent duplicate friend entries
       const alreadyExists =
         prev.some(
           f => f.id === request.senderId
@@ -80,7 +81,7 @@ function ChatWidget() {
       {
         return prev;
       }
-      console.log("I am here " + friendRequests);
+
       return [...prev,
         {
           id: request.senderId,
