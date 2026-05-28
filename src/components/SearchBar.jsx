@@ -1,53 +1,59 @@
+import { useNavigate } from "react-router-dom";
+
 function SearchBar({
     search,
     setSearch,
     searchResults
 })
 {
-    return (
-    <div className="search-container">
+  const navigate = useNavigate();
 
-      <input
-        className="search-bar"
-        type="text"
-        placeholder="Search movies..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+  return (
+  <div className="search-container">
 
-      {
-        searchResults.length > 0 && (
+    <input
+      className="search-bar"
+      type="text"
+      placeholder="Search movies..."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+    />
 
-          <div className="search-dropdown">
+    {
+      searchResults.length > 0 && (
 
-            {searchResults.map((movie) => (
+        <div className="search-dropdown">
 
-              <div
-                key={movie.id}
-                className="search-item"
-              >
+          {searchResults.map((movie) => (
 
-                {
-                  movie.posterPath && (
+            <div
+              key={movie.id}
+              className="search-item"
+              onclick = {() => navigate(`/movies/${movie.id}`)}
+              style={{cursor : "pointer"}}
+            >
 
-                    <img
-                      className="search-poster"
-                      src={`https://image.tmdb.org/t/p/w200${movie.posterPath}`}
-                      alt={movie.title}
-                    />
-                  )
-                }
-                <span>{movie.title}</span>
+              {
+                movie.posterPath && (
 
-              </div>
+                  <img
+                    className="search-poster"
+                    src={`https://image.tmdb.org/t/p/w200${movie.posterPath}`}
+                    alt={movie.title}
+                  />
+                )
+              }
+              <span>{movie.title}</span>
 
-            ))}
+            </div>
 
-          </div>
-        )
-      }
-    </div>
-    )
+          ))}
+
+        </div>
+      )
+    }
+  </div>
+  )
 }
 
 export default SearchBar
