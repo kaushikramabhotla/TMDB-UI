@@ -51,18 +51,36 @@ function ChatWidget() {
   }, [activeTab]);
 
   // ─── Accept / Reject ─────────────────────────────────────────
-  const handleAccept = async (senderId) => {
-    try {
-      const token = localStorage.getItem("token");
-      // ✅ FIX 4: endpoint expects senderId (the person who sent the request)
-      await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/users/accept?requestId=${senderId}`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setFriendRequests(prev => prev.filter(r => r.id !== senderId));
-    } catch (err) { console.error(err); }
-  };
+  const handleAccept = async (request) => {
+
+  try {
+    const token =
+      localStorage.getItem("token");
+
+    await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/users/accept?requestId=${request.id}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    // Remove accepted request instantly from UI
+    setFriendRequests(prev =>
+      prev.filter(r => r.id !== request.id)
+    );
+    setFriends(prev => [
+      ...prev,
+      request.sender
+    ]);
+
+  }
+  catch (err)
+  {
+    console.error(err);
+  }
+};
 
   const handleReject = async (senderId) => {
     try {
@@ -219,7 +237,7 @@ function ChatWidget() {
                           </div>
                         </div>
                         <div className="request-actions">
-                          <button className="accept-btn" onClick={() => handleAccept(user.id)}>
+                          <button className="accept-btn" onClick={() => handleAccept(user)}>
                             <FaCheck />
                           </button>
                           {/* ✅ FIX: was request.id (undefined), now user.id */}
