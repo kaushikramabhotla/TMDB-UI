@@ -11,48 +11,52 @@ function SearchBar({
   return (
   <div className="search-container">
 
-    <input
-      className="search-bar"
-      type="text"
-      placeholder="Search movies..."
-      value={search}
-      onChange={(e) => setSearch(e.target.value)}
-    />
+  <input
+    className="search-bar"
+    type="text"
+    placeholder="Search movies..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+  />
 
-    {
-      searchResults.length > 0 && (
+  {
+    searchResults.length > 0 && (
 
-        <div className="search-dropdown">
+      <div className="search-dropdown">
 
-          {searchResults.map((movie) => (
+        {searchResults.map((movie) => (
 
-            <div
-              key={movie.id}
-              className="search-item"
-              onclick = {() => navigate(`/movies/${movie.id}`)}
-              style={{cursor : "pointer"}}
-            >
+          <div
+            key={movie.id}
+            className="search-item"
+            onClick={() =>
+              navigate(`/movies/${movie.id}`)
+            }
+            style={{ cursor: "pointer" }}
+          >
 
-              {
-                movie.posterPath && (
+            {
+              movie.posterPath && (
 
-                  <img
-                    className="search-poster"
-                    src={`https://image.tmdb.org/t/p/w200${movie.posterPath}`}
-                    alt={movie.title}
-                  />
-                )
-              }
-              <span>{movie.title}</span>
+                <img
+                  className="search-poster"
+                  src={`https://image.tmdb.org/t/p/w200${movie.posterPath}`}
+                  alt={movie.title}
+                />
+              )
+            }
 
-            </div>
+            <span>{movie.title}</span>
 
-          ))}
+          </div>
 
-        </div>
-      )
-    }
-  </div>
+        ))}
+
+      </div>
+    )
+  }
+
+</div>
   )
 }
 
