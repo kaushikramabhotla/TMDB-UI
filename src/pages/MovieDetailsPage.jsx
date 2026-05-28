@@ -1,5 +1,6 @@
 import "../styles/MovieDetailsPage.css";
 import MovieNavBar from "../components/MovieNavBar";
+import FriendsChat from "../components/FriendsChat";
 
 import { useEffect, useState }
   from "react";
@@ -18,6 +19,8 @@ function MovieDetailsPage() {
   const [user, setUser] = useState(null);
 
   const [showProfileMenu,setShowProfileMenu] = useState(false);
+
+  const [showChat, setShowChat] = useState(false);
 
   useEffect(() => {
 
@@ -167,9 +170,13 @@ return (
 
     </div>
 
+    <FriendsChat
+      showChat={showChat}
+      setShowChat={setShowChat}
+    />
+
   </div>
 );
-
 }
 
 export default MovieDetailsPage;
