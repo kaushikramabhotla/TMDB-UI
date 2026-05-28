@@ -171,22 +171,7 @@ return (
 
     </div>
 
-    <>
-      {!showChat && (
-        <button
-          className="floating-chat-btn"
-          onClick={() => setShowChat(true)}
-        >
-          💬
-        </button>
-      )}
-
-      {showChat && (
-        <FriendsChat
-          setShowChat={setShowChat}
-        />
-      )}
-    </>
+    <FriendsChat/>
 
   </div>
 );
