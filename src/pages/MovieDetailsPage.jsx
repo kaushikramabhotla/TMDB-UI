@@ -1,6 +1,6 @@
 import "../styles/MovieDetailsPage.css";
 import MovieNavBar from "../components/MovieNavBar";
-import FriendsChat from "../components/FriendsChat";
+import ChatWidget from "../components/ChatWidget";
 
 import { useEffect, useState }
   from "react";
@@ -171,7 +171,7 @@ return (
 
     </div>
 
-    <FriendsChat/>
+    <ChatWidget />
 
   </div>
 );
