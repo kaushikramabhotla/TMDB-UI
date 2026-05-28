@@ -58,7 +58,7 @@ function ChatWidget() {
     console.log(request.id);
     console.log(request.senderId);
     await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/users/accept?senderId=${request.senderId}`,
+      `${import.meta.env.VITE_API_URL}/api/users/accept?senderId=${request.id}`,
       {},
       {
         headers: {
