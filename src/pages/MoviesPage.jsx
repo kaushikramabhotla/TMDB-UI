@@ -14,6 +14,7 @@ function MoviesPage() {
   const [user, setUser] = useState(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showSessionPopup, setShowSessionPopup] = useState(false);
+  const [movieToShare, setMovieToShare] = useState(null);
 
   useEffect(() => {
 
@@ -185,6 +186,13 @@ function MoviesPage() {
     }
   };
 
+  const shareMovie = (movie) =>
+  {
+    console.log("Sharing movie:", movie);
+
+    setMovieToShare(movie);
+  };
+
 return (
 
   <div className="movies-page">
@@ -217,6 +225,7 @@ return (
           key={movie.id}
           movie={movie}
           toggleFavorite={toggleFavorite}
+          shareMovie={shareMovie}
         />
 
       ))}

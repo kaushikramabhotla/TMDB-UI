@@ -1,7 +1,11 @@
 import { useNavigate } from "react-router-dom";
 
-function MovieCard({ movie, toggleFavorite }) {
-
+function MovieCard({
+  movie,
+  toggleFavorite,
+  shareMovie
+})
+{
   const navigate = useNavigate();
   return (
 
@@ -21,11 +25,20 @@ function MovieCard({ movie, toggleFavorite }) {
       <p>⭐ {movie.voteCount}</p>
 
       <button
-        onClick={() => toggleFavorite(movie.id)}
+        onClick={() =>
+          toggleFavorite(movie.id)
+        }
       >
         {movie.isFavorite ? "❤️" : "🤍"}
       </button>
 
+      <button
+        onClick={() =>
+          shareMovie(movie)
+        }
+      >
+        📤 Share
+      </button>
 
     </div>
   );
